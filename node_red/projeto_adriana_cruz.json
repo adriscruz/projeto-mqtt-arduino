@@ -1,0 +1,456 @@
+[
+    {
+        "id": "a739602db4749003",
+        "type": "tab",
+        "label": "Projeto Faculdade - Adriana Cruz",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "c6a9924d2e18c42d",
+        "type": "arduino in",
+        "z": "a739602db4749003",
+        "name": "Sensor LM35",
+        "pin": "2",
+        "state": "ANALOG",
+        "arduino": "62260328f9f52fb4",
+        "x": 510,
+        "y": 420,
+        "wires": [
+            [
+                "7aa394ce8e5ce550",
+                "8efbb166e3df8ea4"
+            ]
+        ]
+    },
+    {
+        "id": "7aa394ce8e5ce550",
+        "type": "debug",
+        "z": "a739602db4749003",
+        "name": "Status Arduino",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 500,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "8efbb166e3df8ea4",
+        "type": "function",
+        "z": "a739602db4749003",
+        "name": "Converter temperatura em gaus Celsius",
+        "func": "let valorAnalogico = msg.payload;\n\n// Converte o valor lido em tensão (0 a 5V)\nlet tensao = (valorAnalogico * 5.0) / 1023.0;\n\n// Converte tensão em °C\nlet temperaturaC = tensao * 100.0;\n\n// Arredonda e envia o resultado\nmsg.payload = temperaturaC.toFixed(2);\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 830,
+        "y": 420,
+        "wires": [
+            [
+                "f0d8adc5f650eb8e",
+                "85082c213c379648",
+                "62ba7188c589a6f3",
+                "44f905f52ce65211"
+            ]
+        ]
+    },
+    {
+        "id": "f0d8adc5f650eb8e",
+        "type": "debug",
+        "z": "a739602db4749003",
+        "name": "Exibir temperatura",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 900,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "85082c213c379648",
+        "type": "mqtt out",
+        "z": "a739602db4749003",
+        "name": "Enviar temperatura via MQTT",
+        "topic": "adriana/temp",
+        "qos": "0",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "2ceba8924c3625b1",
+        "x": 1170,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "62ba7188c589a6f3",
+        "type": "ui-gauge",
+        "z": "a739602db4749003",
+        "name": "Painel de Temperatura",
+        "group": "44c29958d8c6ef67",
+        "order": 1,
+        "value": "payload",
+        "valueType": "msg",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-34",
+        "gstyle": "needle",
+        "title": "Temperatura",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "°C",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5cd65c",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "30",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "37",
+                "color": "#ea5353",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": "100",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 1320,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "44f905f52ce65211",
+        "type": "ui-chart",
+        "z": "a739602db4749003",
+        "group": "44c29958d8c6ef67",
+        "name": "Gráfico de Temperatura",
+        "label": "Temperatura (°C)",
+        "order": 9007199254740991,
+        "chartType": "line",
+        "category": "topic",
+        "categoryType": "msg",
+        "xAxisLabel": "",
+        "xAxisProperty": "",
+        "xAxisPropertyType": "timestamp",
+        "xAxisType": "time",
+        "xAxisFormat": "",
+        "xAxisFormatType": "auto",
+        "xmin": "",
+        "xmax": "",
+        "yAxisLabel": "",
+        "yAxisProperty": "payload",
+        "yAxisPropertyType": "msg",
+        "ymin": "",
+        "ymax": "",
+        "bins": 10,
+        "action": "append",
+        "stackSeries": false,
+        "pointShape": "false",
+        "pointRadius": 4,
+        "showLegend": true,
+        "removeOlder": 1,
+        "removeOlderUnit": "3600",
+        "removeOlderPoints": "",
+        "colors": [
+            "#0095ff",
+            "#ff0000",
+            "#ff7f0e",
+            "#2ca02c",
+            "#a347e1",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "textColor": [
+            "#666666"
+        ],
+        "textColorDefault": true,
+        "gridColor": [
+            "#e5e5e5"
+        ],
+        "gridColorDefault": true,
+        "width": 6,
+        "height": "4",
+        "className": "",
+        "interpolation": "linear",
+        "x": 1330,
+        "y": 440,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b98b69f1f3590b61",
+        "type": "mqtt in",
+        "z": "a739602db4749003",
+        "name": "Receber temperatura",
+        "topic": "adriana/temp",
+        "qos": "0",
+        "datatype": "auto-detect",
+        "broker": "2ceba8924c3625b1",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 520,
+        "y": 780,
+        "wires": [
+            [
+                "90fe2c43c56451e1",
+                "979cdab06fc30708"
+            ]
+        ]
+    },
+    {
+        "id": "90fe2c43c56451e1",
+        "type": "function",
+        "z": "a739602db4749003",
+        "name": "Verificar febre",
+        "func": "var temp = parseFloat(msg.payload);\n\nlet ledFebre = {};\nlet ledNormal = {};\nlet buzzer = {};\n\nif (temp >= 37.5) {\n    // Temperatura alta\n    ledFebre.payload = 1;     // Liga LED vermelho\n    ledNormal.payload = 0;    // Desliga LED azul\n    buzzer.payload = 1;       // Liga buzzer\n} else {\n    // Temperatura normal\n    ledFebre.payload = 0;     // Desliga LED vermelho\n    ledNormal.payload = 1;    // Liga LED azul\n    buzzer.payload = 0;       // Desliga buzzer\n}\n\n// Envia 3 saídas diferentes\nreturn [ledFebre, ledNormal, buzzer];",
+        "outputs": 3,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 800,
+        "y": 780,
+        "wires": [
+            [
+                "4674c6a669e70feb"
+            ],
+            [
+                "3075e06b16de3923"
+            ],
+            [
+                "a6cd8f59af70fcbb"
+            ]
+        ]
+    },
+    {
+        "id": "979cdab06fc30708",
+        "type": "debug",
+        "z": "a739602db4749003",
+        "name": "Teste Conexão MQTT",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 550,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "4674c6a669e70feb",
+        "type": "arduino out",
+        "z": "a739602db4749003",
+        "name": "LED Febre",
+        "pin": "12",
+        "state": "OUTPUT",
+        "arduino": "62260328f9f52fb4",
+        "x": 1090,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "3075e06b16de3923",
+        "type": "arduino out",
+        "z": "a739602db4749003",
+        "name": "LED Normal",
+        "pin": "13",
+        "state": "OUTPUT",
+        "arduino": "62260328f9f52fb4",
+        "x": 1090,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "a6cd8f59af70fcbb",
+        "type": "arduino out",
+        "z": "a739602db4749003",
+        "name": "Buzzer",
+        "pin": "5",
+        "state": "OUTPUT",
+        "arduino": "62260328f9f52fb4",
+        "x": 1080,
+        "y": 820,
+        "wires": []
+    },
+    {
+        "id": "62260328f9f52fb4",
+        "type": "arduino-board",
+        "device": "COM3",
+        "name": "Arduino Uno",
+        "samplingInt": 250,
+        "log2consol": true
+    },
+    {
+        "id": "2ceba8924c3625b1",
+        "type": "mqtt-broker",
+        "name": "Mosquitto Público",
+        "broker": "test.mosquitto.org",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "44c29958d8c6ef67",
+        "type": "ui-group",
+        "name": "Monitor",
+        "page": "1fedaca2a6070413",
+        "width": 6,
+        "height": 1,
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "1fedaca2a6070413",
+        "type": "ui-page",
+        "name": "Monitoramento - Projeto - Adriana",
+        "ui": "41fec43370d7df93",
+        "path": "/dash",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "953224298915e19d",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "41fec43370d7df93",
+        "type": "ui-base",
+        "name": "My Dashboard",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true,
+        "allowInstall": false
+    },
+    {
+        "id": "953224298915e19d",
+        "type": "ui-theme",
+        "name": "Default Theme",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0094CE",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "02db1a6e4f569a92",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-node-arduino": "1.4.0",
+            "@flowfuse/node-red-dashboard": "1.29.0"
+        }
+    }
+]
