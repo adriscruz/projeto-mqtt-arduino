@@ -1,0 +1,76 @@
+{
+  "version": 1,
+  "author": "Adriana Cruz",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "board-esp32-devkit-c-v4",
+      "id": "esp",
+      "top": -31.6,
+      "left": 139.76,
+      "rotate": 180,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-led",
+      "id": "ledVermelho",
+      "top": 104.8,
+      "left": -113.8,
+      "rotate": 270,
+      "attrs": { "color": "red" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "ledVerde",
+      "top": 18.4,
+      "left": -142.6,
+      "rotate": 270,
+      "attrs": { "color": "green" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "rVermelho",
+      "top": 128.75,
+      "left": -67.2,
+      "attrs": { "value": "220" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "rVerde",
+      "top": 13.55,
+      "left": -76.8,
+      "attrs": { "value": "220" }
+    },
+    {
+      "type": "wokwi-buzzer",
+      "id": "buzzer",
+      "top": -60.3,
+      "left": 311.7,
+      "rotate": 90,
+      "attrs": { "volume": "0.1" }
+    },
+    {
+      "type": "wokwi-ntc-temperature-sensor",
+      "id": "ntc",
+      "top": -83.8,
+      "left": -173.4,
+      "attrs": {}
+    }
+  ],
+  "connections": [
+    ["esp:TX", "$serialMonitor:RX", "", []],
+    ["esp:RX", "$serialMonitor:TX", "", []],
+    ["ntc:VCC", "esp:3V3", "red", ["h0"]],
+    ["ntc:GND", "esp:GND.1", "black", ["h0"]],
+    ["ntc:OUT", "esp:34", "green", ["h0"]],
+    ["rVermelho:2", "esp:26", "green", ["v0"]],
+    ["rVermelho:1", "ledVermelho:A", "green", ["v0"]],
+    ["ledVermelho:C", "esp:GND.2", "black", ["v0"]],
+    ["rVerde:2", "esp:25", "green", ["v0"]],
+    ["rVerde:1", "ledVerde:A", "green", ["v0"]],
+    ["ledVerde:C", "esp:GND.2", "black", ["v0"]],
+    ["buzzer:1", "esp:27", "orange", ["h0"]],
+    ["buzzer:2", "esp:GND.1", "black", ["h0"]]
+  ],
+  "dependencies": {}
+}
